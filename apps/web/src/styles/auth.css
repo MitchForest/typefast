@@ -1,0 +1,384 @@
+/* ── Auth Gate ────────────────────────────────────── */
+
+.auth-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+}
+
+.auth-gate-detail {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  color: var(--color-ink-muted);
+  text-align: center;
+}
+
+.auth-gate-shell {
+  width: 100%;
+  max-width: 360px;
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-gate-header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.auth-gate-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.32rem 0.64rem;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-mastery) 12%, var(--color-surface));
+  color: var(--color-mastery);
+  font-size: var(--text-micro);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.auth-gate-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 0.98rem + 0.5vw, 1.4rem);
+  font-weight: 900;
+  color: var(--color-ink);
+  line-height: 1.1;
+}
+
+.auth-gate-copy {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: var(--text-caption);
+  line-height: 1.5;
+}
+
+.auth-gate-form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.auth-gate-field {
+  display: grid;
+  gap: 6px;
+}
+
+.auth-gate-field-label,
+.auth-gate-code-label {
+  font-size: var(--text-micro);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.auth-gate-input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 800;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  outline: none;
+  transition:
+    border-color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) var(--ease-snap);
+}
+
+.auth-gate-input:focus {
+  border-color: var(--color-mastery);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-mastery) 14%, transparent);
+}
+
+.auth-gate-input::placeholder {
+  color: var(--color-ink-muted);
+  font-weight: 600;
+}
+
+/* ── OTP Digit Boxes ─────────────────────────────── */
+
+.otp-boxes {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.otp-box {
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 44px;
+  min-width: 44px;
+  height: 52px;
+  min-height: 52px;
+  padding: 0;
+  margin: 0;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--color-ink);
+  text-align: center;
+  outline: none;
+  caret-color: var(--color-mastery);
+  transition:
+    border-color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) var(--ease-snap),
+    transform var(--dur-fast) var(--ease-snap);
+}
+
+.otp-box:focus {
+  border-color: var(--color-mastery);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-mastery) 14%, transparent);
+  transform: translateY(-1px);
+}
+
+.otp-box::placeholder {
+  color: transparent;
+}
+
+/* ── Info chips ──────────────────────────────────── */
+
+.auth-gate-info-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.auth-gate-info-chip,
+.auth-gate-email-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0.32rem 0.64rem;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-surface-sunken) 60%, var(--color-surface));
+  color: var(--color-ink-soft);
+  font-size: var(--text-micro);
+  font-weight: 800;
+}
+
+/* ── Code panel ──────────────────────────────────── */
+
+.auth-gate-code-panel {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-sunken);
+}
+
+.auth-gate-email-pill {
+  width: fit-content;
+  max-width: 100%;
+  background: color-mix(in srgb, var(--color-speed) 10%, var(--color-surface));
+  color: var(--color-speed-dark);
+  overflow-wrap: anywhere;
+}
+
+.auth-gate-code-meta,
+.auth-gate-resend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.auth-gate-code-meta,
+.auth-gate-resend-copy {
+  font-size: var(--text-micro);
+  font-weight: 800;
+  color: var(--color-ink-soft);
+}
+
+.auth-gate-inline-link {
+  padding: 0;
+  background: transparent;
+  color: var(--color-speed-dark);
+  font-size: var(--text-micro);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.auth-gate-inline-link:disabled {
+  color: var(--color-ink-muted);
+  cursor: not-allowed;
+}
+
+.auth-gate-error {
+  font-size: var(--text-caption);
+  font-weight: 800;
+  color: var(--color-miss);
+  text-align: left;
+}
+
+.auth-gate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-start;
+}
+
+/* ── Auth Modal (native <dialog>) ────────────────── */
+
+.auth-modal {
+  border: none;
+  background: transparent;
+  max-width: 100vw;
+  max-height: 100dvh;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-4);
+  overflow-y: auto;
+}
+
+.auth-modal[open] {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+}
+
+.auth-modal::backdrop {
+  background: rgb(0 0 0 / 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: auth-modal-backdrop-in 300ms ease both;
+}
+
+.auth-modal[open] > .auth-modal-body {
+  animation: auth-modal-in 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.auth-modal-body {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.auth-modal-body .auth-gate {
+  padding: 0;
+}
+
+.auth-modal-body .auth-gate-shell {
+  max-width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.auth-modal-dismiss {
+  width: 100%;
+  margin-top: var(--space-3);
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  font-family: var(--font-display);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  transition: color var(--dur-fast) ease;
+}
+
+.auth-modal-dismiss:hover {
+  color: var(--color-ink);
+}
+
+@keyframes auth-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes auth-modal-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 480px) {
+  .auth-gate-shell {
+    max-width: 100%;
+    padding: var(--space-3);
+  }
+
+  .auth-gate-actions > .btn-3d {
+    width: 100%;
+  }
+
+  .auth-gate-code-meta,
+  .auth-gate-resend-row {
+    align-items: flex-start;
+  }
+
+  .otp-box {
+    width: 38px;
+    height: 46px;
+    font-size: 1.2rem;
+  }
+
+  .auth-modal {
+    padding: var(--space-3);
+    align-items: end;
+  }
+
+  .auth-modal-body {
+    padding: var(--space-4) var(--space-3) var(--space-3);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .auth-gate-shell {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+  }
+
+  .auth-gate-input {
+    background: var(--color-surface-sunken);
+    border-color: var(--color-border);
+  }
+
+  .otp-box {
+    background: var(--color-surface-sunken);
+    border-color: var(--color-border);
+  }
+
+  .auth-gate-code-panel {
+    background: color-mix(in srgb, var(--color-surface-sunken) 60%, var(--color-surface));
+  }
+
+  .auth-modal-body {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+  }
+}

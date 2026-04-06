@@ -1,0 +1,917 @@
+/* ── Layout ─────────────────────────────────────────── */
+
+.app-shell {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  padding: clamp(0.5rem, 1vw, 0.85rem);
+}
+
+/* When immersive (typing active), take full viewport */
+.layout--immersive .app-shell {
+  height: 100dvh;
+}
+
+.backdrop {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(80px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.backdrop-one {
+  top: -4rem;
+  right: -8rem;
+  width: 26rem;
+  height: 26rem;
+  background: rgb(255 150 0 / 0.3);
+}
+
+.backdrop-two {
+  bottom: -6rem;
+  left: -8rem;
+  width: 30rem;
+  height: 30rem;
+  background: rgb(88 204 2 / 0.2);
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: clamp(0.45rem, 0.9vw, 0.7rem);
+  height: 100%;
+  width: min(100%, 64rem);
+  margin: 0 auto;
+  padding: clamp(0.75rem, 1.4vw, 1.25rem);
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(14px);
+}
+
+/* Kill backdrop-filter during active typing — nothing behind the frame is visible
+   in immersive mode and blur is extremely expensive during rapid repaints */
+.layout--immersive .frame {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ── Status chips ───────────────────────────────────── */
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.status-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-sm);
+}
+
+.status-chip strong {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.chip-label {
+  color: var(--color-ink-muted);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-chip-fire {
+  background: linear-gradient(180deg, #fffaf4 0%, var(--color-fire-soft) 100%);
+}
+
+.status-chip-fire strong {
+  color: var(--color-fire-dark);
+}
+
+.status-chip-speed {
+  background: linear-gradient(180deg, #f4fcff 0%, var(--color-speed-soft) 100%);
+  padding: 0.38rem 0.85rem;
+}
+
+.status-chip-speed strong {
+  color: var(--color-speed-dark);
+  font-size: 0.95rem;
+}
+
+.status-chip-go {
+  background: linear-gradient(180deg, #f6fef0 0%, var(--color-go-soft) 100%);
+}
+
+.status-chip-go strong {
+  color: var(--color-go-dark);
+}
+
+/* ── Restart Button ────────────────────────────────── */
+
+.restart-btn {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-raised);
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition:
+    color var(--dur-fast) ease,
+    background var(--dur-fast) ease,
+    transform var(--dur-instant) var(--ease-press);
+}
+
+.restart-btn:hover {
+  color: var(--color-ink);
+  background: var(--color-surface-sunken);
+}
+
+.restart-btn:active {
+  transform: scale(0.9);
+}
+
+/* ── Arena ──────────────────────────────────────────── */
+
+.arena {
+  min-height: 0;
+  display: grid;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.arena:has(.results) {
+  overflow-y: auto;
+}
+
+/* ── Track (teleprompter) ───────────────────────────── */
+
+.track {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  padding-bottom: 0.75rem;
+  background: var(--color-surface);
+  border-radius: inherit;
+  cursor: text;
+  will-change: contents;
+}
+
+.track-viewport {
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  overflow: clip;
+  contain: paint;
+}
+
+/* Top fade — sized to match track padding so first line stays readable */
+.track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(1rem, 2vw, 1.5rem);
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--color-surface),
+    rgb(255 255 255 / 0)
+  );
+}
+
+/* Bottom fade — generous for soft preview of upcoming text */
+.track::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5rem;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--color-surface) 8%,
+    rgb(255 255 255 / 0)
+  );
+}
+
+/* ── Prompt text ────────────────────────────────────── */
+
+.prompt {
+  position: relative;
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  line-height: 2.2;
+  white-space: pre-wrap;
+  word-break: break-word;
+  transition: transform 280ms cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+.char {
+  position: relative;
+}
+
+.char-correct {
+  color: var(--color-ink);
+  animation: char-pop 180ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.char-wrong {
+  color: var(--color-miss);
+  background: linear-gradient(
+    180deg,
+    transparent 58%,
+    var(--color-miss-soft) 58%
+  );
+  animation: char-shake 200ms ease;
+}
+
+.char-current::after {
+  content: '';
+  position: absolute;
+  left: -0.06em;
+  bottom: -0.18em;
+  width: calc(100% + 0.12em);
+  height: 0.18em;
+  border-radius: 999px;
+  background: var(--color-go);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.char-current::before {
+  content: '';
+  position: absolute;
+  left: -0.08em;
+  top: 0.16em;
+  width: 0.14em;
+  height: 1.2em;
+  border-radius: 999px;
+  background: var(--color-go);
+  animation: blink 1s steps(1, end) infinite;
+}
+
+/* ── Meter (thin bar at track bottom) ───────────────── */
+
+.meter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 3;
+  background: var(--color-surface-sunken);
+  border-radius: 0 0 calc(1.5rem - 1px) calc(1.5rem - 1px);
+  overflow: hidden;
+}
+
+.meter-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    var(--color-go) 0%,
+    var(--color-xp) 55%,
+    var(--color-fire) 100%
+  );
+  transition: transform 140ms ease-out;
+}
+
+/* ── Hidden input ───────────────────────────────────── */
+
+.input-capture {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 0;
+  resize: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  outline: none;
+}
+
+/* ── Results ────────────────────────────────────────── */
+
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.5rem, 1.2vw, 0.75rem);
+  padding: clamp(0.5rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.5rem);
+  animation: rise 380ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+/* ── Results: Hero Section ─────────────────────────── */
+
+.results-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-1);
+}
+
+.results-kicker {
+  color: var(--color-ink-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.results-wpm {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 10vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+}
+
+.results-unit {
+  font-size: 0.3em;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--color-ink-soft);
+  margin-left: 0.1em;
+  vertical-align: 0.15em;
+}
+
+/* ── Results: Delta Line ──────────────────────────── */
+
+.results-delta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.results-delta-line {
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.results-delta-up {
+  color: var(--color-go-dark);
+}
+
+.results-delta-down {
+  color: var(--color-ink-muted);
+}
+
+.results-delta-best {
+  color: var(--color-ink-soft);
+}
+
+/* ── Results: Inline Stats ───────────────────────── */
+
+.results-inline-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--color-ink-soft);
+}
+
+.results-inline-sep {
+  color: var(--color-ink-muted);
+  opacity: 0.5;
+}
+
+/* ── Results: Rank Line ──────────────────────────── */
+
+.results-rank-line {
+  font-family: var(--font-display);
+  font-size: var(--text-caption);
+  font-weight: 800;
+  color: var(--color-ink-soft);
+  text-align: center;
+}
+
+/* ── Results: Stage 2 Entrance ──────────────────── */
+
+.results-stage2-enter {
+  animation: results-stage2-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.results-stage2-delay {
+  animation-delay: 100ms;
+}
+
+@keyframes results-stage2-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Results: Territory Celebration ──────────────── */
+
+.results-territory-celebration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 320px;
+}
+
+.results-territory-headline {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 900;
+  color: var(--color-ink);
+  line-height: 1.2;
+}
+
+.results-territory-headline strong {
+  color: var(--color-go-dark);
+}
+
+.results-territory-detail {
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--color-ink-soft);
+}
+
+.results-territory-cta {
+  width: 100%;
+}
+
+/* ── Results: Rank Card ─────────────────────────── */
+
+.results-rank-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 320px;
+}
+
+.results-rank-headline {
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 900;
+  color: var(--color-ink-soft);
+}
+
+/* ── Results: Primary Action ─────────────────────── */
+
+.results-primary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* ── Results: Secondary Actions (text links) ─────── */
+
+.results-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.results-text-link {
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--color-ink-muted);
+  cursor: pointer;
+  transition: color var(--dur-fast) ease;
+}
+
+.results-text-link:hover {
+  color: var(--color-ink);
+}
+
+/* ── Results: Celebration Badges ───────────────────── */
+
+.results-badge {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: badge-pop var(--dur-dramatic) var(--ease-bounce) both;
+}
+
+.results-badge-best {
+  background: linear-gradient(135deg, var(--color-xp), var(--color-fire));
+  color: #ffffff;
+  box-shadow: 0 0 24px rgba(255, 200, 0, 0.3);
+  animation:
+    badge-pop var(--dur-dramatic) var(--ease-bounce) both,
+    gold-glow 2s ease-in-out infinite;
+}
+
+.results-badge-perfect {
+  background: linear-gradient(135deg, var(--color-go), var(--color-go-light));
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(88, 204, 2, 0.3);
+}
+
+.results-badge-level {
+  background: linear-gradient(135deg, var(--color-mastery), var(--color-speed));
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(206, 130, 255, 0.3);
+}
+
+
+/* ── Combo target ──────────────────────────────────── */
+
+.combo-target {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 2.4rem;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.combo-target-active {
+  animation: combo-enter 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.combo-intake {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  opacity: 0.78;
+  filter: saturate(0.95);
+  animation: combo-intake-idle 1.8s ease-in-out infinite;
+}
+
+.combo-intake::before {
+  content: '';
+  position: absolute;
+  inset: -0.45rem;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgb(88 204 2 / 0.16) 0%,
+    rgb(88 204 2 / 0.05) 45%,
+    transparent 72%
+  );
+}
+
+.combo-intake-core {
+  position: relative;
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgb(255 255 255 / 0.95) 0%,
+    var(--color-go-light) 42%,
+    var(--color-go-dark) 100%
+  );
+  box-shadow:
+    0 0 0 2px rgb(88 204 2 / 0.12),
+    0 0 18px rgb(88 204 2 / 0.28);
+}
+
+.combo-target-active .combo-intake {
+  opacity: 1;
+  filter: saturate(1.05);
+}
+
+.combo-readout {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.combo-value {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--color-go-dark);
+  letter-spacing: -0.02em;
+  transition: all 100ms ease;
+}
+
+.combo-target-blazing .combo-value {
+  font-size: 1.7rem;
+  color: var(--color-fire-dark);
+  text-shadow: 0 0 12px rgb(255 150 0 / 0.3);
+}
+
+.combo-target-fire .combo-value {
+  font-size: 2rem;
+  color: var(--color-fire);
+  text-shadow:
+    0 0 20px rgb(255 150 0 / 0.5),
+    0 0 40px rgb(255 150 0 / 0.2);
+}
+
+.combo-target-transcendent .combo-value {
+  font-size: 2.2rem;
+  color: var(--color-xp);
+  text-shadow:
+    0 0 24px rgb(255 200 0 / 0.6),
+    0 0 48px rgb(255 150 0 / 0.3),
+    0 0 80px rgb(255 100 0 / 0.15);
+  animation: combo-pulse-big 400ms ease-in-out infinite alternate;
+}
+
+.combo-tier {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-fire-dark);
+  opacity: 0.8;
+}
+
+/* Ambient glow behind combo counter at blazing+ tiers */
+.combo-target-blazing::before {
+  content: '';
+  position: absolute;
+  inset: -30px -60px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgb(255 150 0 / 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.combo-target-fire::before {
+  background: radial-gradient(
+    circle,
+    rgb(255 150 0 / 0.14) 0%,
+    rgb(255 200 0 / 0.06) 40%,
+    transparent 70%
+  );
+}
+
+.combo-target-transcendent::before {
+  background: radial-gradient(
+    circle,
+    rgb(255 200 0 / 0.2) 0%,
+    rgb(255 150 0 / 0.1) 35%,
+    rgb(88 204 2 / 0.05) 60%,
+    transparent 80%
+  );
+  inset: -50px -100px;
+}
+
+.combo-target-transcendent .combo-tier {
+  color: var(--color-xp-dark);
+  text-shadow: 0 0 8px rgb(255 200 0 / 0.3);
+}
+
+/* ── Footer hint ────────────────────────────────────── */
+
+.footer-hint {
+  min-height: 1.2rem;
+  color: var(--color-ink-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ── Animations ─────────────────────────────────────── */
+
+@keyframes char-pop {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes char-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-2px);
+  }
+
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scaleX(0.92);
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes combo-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes combo-pulse-big {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes combo-intake-idle {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.76;
+  }
+
+  50% {
+    transform: scale(1.06);
+    opacity: 0.92;
+  }
+}
+
+/* ── Results: Mobile ──────────────────────────────── */
+
+@media (max-width: 520px) {
+  .results-wpm {
+    font-size: clamp(2.8rem, 12vw, 4rem);
+  }
+}
+
+/* ── Dark Mode ─────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  .frame {
+    border-color: var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .track::before {
+    background: linear-gradient(
+      to bottom,
+      var(--color-surface),
+      rgb(26 44 53 / 0)
+    );
+  }
+
+  .track::after {
+    background: linear-gradient(
+      to top,
+      var(--color-surface) 8%,
+      rgb(26 44 53 / 0)
+    );
+  }
+
+  .char-wrong {
+    background: linear-gradient(
+      180deg,
+      transparent 58%,
+      rgb(255 75 75 / 0.2) 58%
+    );
+  }
+
+  .backdrop-one {
+    opacity: 0.2;
+  }
+
+  .backdrop-two {
+    opacity: 0.15;
+  }
+
+  .status-chip {
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .status-chip-fire {
+    background: linear-gradient(
+      180deg,
+      var(--color-surface) 0%,
+      color-mix(in srgb, var(--color-fire) 10%, var(--color-surface)) 100%
+    );
+  }
+
+  .status-chip-speed {
+    background: linear-gradient(
+      180deg,
+      var(--color-surface) 0%,
+      color-mix(in srgb, var(--color-speed) 10%, var(--color-surface)) 100%
+    );
+  }
+
+  .status-chip-go {
+    background: linear-gradient(
+      180deg,
+      var(--color-surface) 0%,
+      color-mix(in srgb, var(--color-go) 10%, var(--color-surface)) 100%
+    );
+  }
+}

@@ -1,0 +1,261 @@
+/* ── Map Page ──────────────────────────────────────── */
+
+.map-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.map-container {
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Resolution Badge ──────────────────────────────── */
+
+.map-resolution-badge {
+  position: absolute;
+  top: var(--space-3);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-overlay);
+  box-shadow: var(--shadow-md);
+  font-size: var(--text-caption) !important;
+  padding: var(--space-2) var(--space-4) !important;
+}
+
+/* ── Locate Button ─────────────────────────────────── */
+
+.map-locate-btn {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: var(--z-overlay);
+  font-size: 1.2rem;
+  min-height: 40px !important;
+  padding: var(--space-2) !important;
+}
+
+/* ── Claim Hint ────────────────────────────────────── */
+
+.map-claim-hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--space-8) + 36px);
+  transform: translateX(-50%);
+  z-index: var(--z-overlay);
+  pointer-events: none;
+}
+
+.map-claim-hint-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  pointer-events: auto;
+  animation: slide-up var(--dur-slow) var(--ease-snap) both;
+}
+
+.map-claim-hint-card p {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: var(--text-caption);
+  font-weight: 700;
+}
+
+.map-claim-hint-card .btn-3d {
+  min-height: 36px !important;
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .map-claim-hint {
+    left: var(--space-3);
+    right: var(--space-3);
+    bottom: calc(var(--space-7) + 36px);
+    transform: none;
+  }
+
+  .map-claim-hint-card {
+    justify-content: space-between;
+  }
+}
+
+/* ── Popup Overlay ─────────────────────────────────── */
+
+.map-popup-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-4);
+  padding-bottom: var(--space-8);
+  z-index: var(--z-overlay);
+}
+
+.map-popup {
+  position: relative;
+  width: min(100%, 340px);
+  text-align: center;
+}
+
+.map-popup-close {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  color: var(--color-ink-soft);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.map-popup-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-2);
+}
+
+.map-popup-avatar .avatar-display {
+  border: 2px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.map-popup-name {
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  font-weight: 800;
+  color: var(--color-ink);
+  margin-bottom: var(--space-1);
+}
+
+.map-popup-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+  font-weight: 700;
+  color: var(--color-ink-soft);
+  margin-bottom: var(--space-2);
+}
+
+.map-popup-stat strong {
+  font-family: var(--font-mono);
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.map-popup-divider {
+  color: var(--color-ink-muted);
+}
+
+.map-popup-message {
+  font-style: italic;
+  color: var(--color-ink-soft);
+  font-size: var(--text-caption);
+  font-weight: 600;
+}
+
+/* ── MapLibre Overrides ────────────────────────────── */
+
+.maplibregl-ctrl-bottom-left {
+  bottom: var(--space-1) !important;
+  left: var(--space-1) !important;
+}
+
+.maplibregl-ctrl-bottom-right {
+  bottom: var(--space-1) !important;
+  right: var(--space-1) !important;
+}
+
+/* Attribution — compact and unobtrusive, start collapsed */
+.maplibregl-ctrl-attrib {
+  background: rgb(245 240 232 / 0.7) !important;
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-sm) !important;
+  font-size: 0.6rem !important;
+  padding: 2px 6px !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: var(--color-ink-muted) !important;
+  text-decoration: none !important;
+}
+
+.maplibregl-ctrl-attrib-button {
+  background-color: rgb(245 240 232 / 0.7) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* Navigation controls — match app style */
+.maplibregl-ctrl-group {
+  background: var(--color-surface) !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden;
+}
+
+.maplibregl-ctrl-group button {
+  width: 36px !important;
+  height: 36px !important;
+  border: none !important;
+  border-bottom: 1px solid var(--color-border) !important;
+}
+
+.maplibregl-ctrl-group button:last-child {
+  border-bottom: none !important;
+}
+
+.maplibregl-ctrl-group button:hover {
+  background-color: var(--color-surface-sunken) !important;
+}
+
+/* ── Dark Mode ────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  .maplibregl-ctrl-attrib {
+    background: rgb(17 28 34 / 0.7) !important;
+  }
+
+  .maplibregl-ctrl-attrib a {
+    color: var(--color-ink-muted) !important;
+  }
+
+  .maplibregl-ctrl-attrib-button {
+    background-color: rgb(17 28 34 / 0.7) !important;
+  }
+
+  .maplibregl-ctrl-group {
+    background: var(--color-surface) !important;
+    border-color: var(--color-border) !important;
+  }
+
+  .maplibregl-ctrl-group button {
+    border-color: var(--color-border) !important;
+  }
+
+  .maplibregl-ctrl-group button:hover {
+    background-color: var(--color-surface-sunken) !important;
+  }
+
+  .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+    filter: invert(1);
+  }
+}

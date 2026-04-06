@@ -1,0 +1,15 @@
+.avatar-display {
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.avatar-display-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-speed), var(--color-mastery));
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 900;
+}

@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgb(255 200 0 / 0.18),
+      transparent 28rem
+    ),
+    radial-gradient(
+      circle at right 14%,
+      rgb(28 176 246 / 0.16),
+      transparent 28rem
+    ),
+    linear-gradient(180deg, #fbf8f3 0%, var(--color-bg) 100%);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background:
+      radial-gradient(
+        circle at top left,
+        rgb(255 200 0 / 0.06),
+        transparent 28rem
+      ),
+      radial-gradient(
+        circle at right 14%,
+        rgb(28 176 246 / 0.06),
+        transparent 28rem
+      ),
+      linear-gradient(180deg, #111c22 0%, var(--color-bg) 100%);
+  }
+
+  ::selection {
+    background: var(--color-go);
+    color: #fff;
+  }
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--color-go);
+  color: #fff;
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .status-chip {
+    padding: 0.28rem 0.5rem;
+  }
+
+  .status-chip strong {
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

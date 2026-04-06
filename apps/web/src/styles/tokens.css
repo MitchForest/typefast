@@ -1,0 +1,129 @@
+:root {
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* ── Color: Primary ────────────────────────────────── */
+  --color-go: #58cc02;
+  --color-go-dark: #46a302;
+  --color-go-light: #89e219;
+  --color-go-soft: #e5f8d0;
+
+  /* ── Color: Functional ─────────────────────────────── */
+  --color-speed: #1cb0f6;
+  --color-speed-dark: #1899d6;
+  --color-speed-soft: #ddf4ff;
+  --color-xp: #ffc800;
+  --color-xp-dark: #e5b800;
+  --color-xp-soft: #fff4cc;
+  --color-fire: #ff9600;
+  --color-fire-dark: #e58600;
+  --color-fire-soft: #fff0d9;
+  --color-miss: #ff4b4b;
+  --color-miss-dark: #ea2b2b;
+  --color-miss-soft: #ffe0e0;
+  --color-mastery: #ce82ff;
+  --color-mastery-dark: #b563e8;
+  --color-mastery-soft: #f3e5ff;
+
+  /* ── Color: Neutral ────────────────────────────────── */
+  --color-bg: #f7f5f0;
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #eeebe4;
+  --color-ink: #3c3c3c;
+  --color-ink-soft: #777777;
+  --color-ink-muted: #afafaf;
+  --color-border: #e5e0d8;
+  --color-border-strong: #c8c3bb;
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  /* ── Typography ────────────────────────────────────── */
+  --font-display: 'Nunito', 'Nunito Sans', system-ui, sans-serif;
+  --font-body: 'Nunito', 'Nunito Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-hero: 3.5rem;
+  --text-display: 2rem;
+  --text-heading: 1.5rem;
+  --text-title: 1.125rem;
+  --text-body: 1rem;
+  --text-caption: 0.875rem;
+  --text-micro: 0.75rem;
+
+  /* ── Spacing (4px grid) ────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ── Border Radius ─────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ───────────────────────────────────────── */
+  --shadow-sm: 0 2px 0 0 var(--color-border);
+  --shadow-md: 0 4px 0 0 var(--color-border-strong);
+  --shadow-lg:
+    0 6px 0 0 var(--color-border-strong), 0 22px 60px rgb(90 81 58 / 0.12);
+  --shadow-pressed: 0 2px 0 0 var(--color-border-strong);
+
+  /* ── Content Widths ────────────────────────────────── */
+  --content-max: 960px;
+  --content-reading: 680px;
+  --content-narrow: 480px;
+
+  /* ── Animation: Easing ─────────────────────────────── */
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-press: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ── Animation: Duration ───────────────────────────── */
+  --dur-instant: 80ms;
+  --dur-fast: 150ms;
+  --dur-normal: 250ms;
+  --dur-slow: 400ms;
+  --dur-dramatic: 600ms;
+  --dur-counter: 800ms;
+
+  /* ── Z-Index ───────────────────────────────────────── */
+  --z-base: 1;
+  --z-overlay: 10;
+  --z-nav: 50;
+  --z-particles: 100;
+  --z-modal: 200;
+}
+
+/* ── Dark Mode ─────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg: #131f24;
+    --color-surface: #1a2c35;
+    --color-surface-raised: #1f3540;
+    --color-surface-sunken: #0e181d;
+    --color-ink: #f0efeb;
+    --color-ink-soft: #a8b5bd;
+    --color-ink-muted: #6b7c85;
+    --color-border: #2a4050;
+    --color-border-strong: #3a5565;
+    --color-overlay: rgba(0, 0, 0, 0.6);
+
+    --shadow-sm: 0 2px 0 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 0 0 rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 6px 0 0 rgba(0, 0, 0, 0.4), 0 22px 60px rgba(0, 0, 0, 0.3);
+    --shadow-pressed: 0 2px 0 0 rgba(0, 0, 0, 0.3);
+  }
+}

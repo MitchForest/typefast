@@ -1,0 +1,386 @@
+/* ── 3D Arcade Button ──────────────────────────────── */
+
+.btn-3d {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: none;
+  border-bottom: 4px solid var(--btn-border, var(--color-border-strong));
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-6);
+  min-height: 48px;
+  background: var(--btn-bg, var(--color-surface));
+  color: var(--btn-color, var(--color-ink));
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform var(--dur-instant) var(--ease-press),
+    border-bottom-width var(--dur-instant) var(--ease-press),
+    filter var(--dur-instant) var(--ease-press);
+  transform: translateY(0);
+}
+
+.btn-3d:hover {
+  transform: translateY(-1px);
+  border-bottom-width: 5px;
+  filter: brightness(1.05);
+}
+
+.btn-3d:active {
+  transform: translateY(3px);
+  border-bottom-width: 1px;
+}
+
+.btn-3d:disabled {
+  background: var(--color-surface-sunken);
+  border-bottom-color: var(--color-border);
+  color: var(--color-ink-muted);
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+/* Button sizes */
+.btn-sm {
+  min-height: 36px;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-caption);
+  border-radius: var(--radius-md);
+}
+
+.btn-lg {
+  min-height: 56px;
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-title);
+  font-weight: 800;
+}
+
+.btn-xl {
+  min-height: 64px;
+  padding: var(--space-4) var(--space-10);
+  font-size: var(--text-title);
+  font-weight: 800;
+}
+
+/* Button color variants */
+.btn-go {
+  --btn-bg: var(--color-go);
+  --btn-border: var(--color-go-dark);
+  --btn-color: #ffffff;
+}
+
+.btn-speed {
+  --btn-bg: var(--color-speed);
+  --btn-border: var(--color-speed-dark);
+  --btn-color: #ffffff;
+}
+
+.btn-fire {
+  --btn-bg: var(--color-fire);
+  --btn-border: var(--color-fire-dark);
+  --btn-color: #ffffff;
+}
+
+.btn-danger {
+  --btn-bg: var(--color-miss);
+  --btn-border: var(--color-miss-dark);
+  --btn-color: #ffffff;
+}
+
+.btn-mastery {
+  --btn-bg: var(--color-mastery);
+  --btn-border: var(--color-mastery-dark);
+  --btn-color: #ffffff;
+}
+
+.btn-secondary {
+  --btn-bg: var(--color-surface);
+  --btn-border: var(--color-border-strong);
+  --btn-color: var(--color-ink);
+}
+
+.btn-ghost {
+  --btn-bg: transparent;
+  --btn-color: var(--color-ink-soft);
+  border-bottom: none;
+  padding: var(--space-2) var(--space-3);
+  min-height: auto;
+}
+
+.btn-ghost:hover {
+  transform: none;
+  border-bottom-width: 0;
+  background: var(--color-surface-sunken);
+}
+
+.btn-ghost:active {
+  transform: none;
+  border-bottom-width: 0;
+  opacity: 0.7;
+}
+
+/* Full-width on mobile */
+@media (max-width: 480px) {
+  .btn-full-mobile {
+    width: 100%;
+  }
+}
+
+/* ── Card ──────────────────────────────────────────── */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-5);
+}
+
+.card-flat {
+  box-shadow: none;
+}
+
+.card-elevated {
+  border: none;
+  box-shadow: var(--shadow-lg);
+}
+
+.card-interactive {
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-snap),
+    box-shadow var(--dur-fast) var(--ease-snap);
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-interactive:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Progress Bar ──────────────────────────────────── */
+
+.progress-bar {
+  height: 16px;
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-sm {
+  height: 12px;
+}
+
+.progress-bar-lg {
+  height: 24px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--progress-color, var(--color-go)),
+    var(--progress-color-end, var(--color-go-dark))
+  );
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  transition: width 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.progress-xp {
+  --progress-color: var(--color-xp);
+  --progress-color-end: var(--color-xp-dark);
+}
+
+.progress-speed {
+  --progress-color: var(--color-speed);
+  --progress-color-end: var(--color-speed-dark);
+}
+
+.progress-fire {
+  --progress-color: var(--color-fire);
+  --progress-color-end: var(--color-fire-dark);
+}
+
+/* ── Stat Display ──────────────────────────────────── */
+
+.stat-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.stat-hero-kicker {
+  font-size: var(--text-micro);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.stat-hero-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-hero-unit {
+  font-family: var(--font-display);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--color-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Chip / Badge ──────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.chip-go {
+  background: var(--color-go-soft);
+  color: var(--color-go-dark);
+}
+
+.chip-speed {
+  background: var(--color-speed-soft);
+  color: var(--color-speed-dark);
+}
+
+.chip-fire {
+  background: var(--color-fire-soft);
+  color: var(--color-fire-dark);
+}
+
+.chip-xp {
+  background: var(--color-xp-soft);
+  color: var(--color-xp-dark);
+}
+
+.chip-mastery {
+  background: var(--color-mastery-soft);
+  color: var(--color-mastery-dark);
+}
+
+/* ── Stagger Entrance ──────────────────────────────── */
+
+.stagger-enter {
+  animation: slide-up var(--dur-normal) var(--ease-snap) both;
+}
+
+.stagger-1 {
+  animation-delay: 0ms;
+}
+.stagger-2 {
+  animation-delay: 60ms;
+}
+.stagger-3 {
+  animation-delay: 120ms;
+}
+.stagger-4 {
+  animation-delay: 180ms;
+}
+.stagger-5 {
+  animation-delay: 240ms;
+}
+.stagger-6 {
+  animation-delay: 300ms;
+}
+.stagger-7 {
+  animation-delay: 360ms;
+}
+.stagger-8 {
+  animation-delay: 420ms;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Celebration Animations ────────────────────────── */
+
+@keyframes badge-pop {
+  0% {
+    transform: scale(0) rotate(-15deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) rotate(5deg);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.95) rotate(-2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes xp-tick {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes gold-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 200, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 24px 4px rgba(255, 200, 0, 0.3);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}

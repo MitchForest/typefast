@@ -1,0 +1,24 @@
+{
+  "name": "typefast",
+  "private": true,
+  "packageManager": "bun@1.3.5",
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "dev": "bun run --filter '*' dev",
+    "dev:web": "cd apps/web && bun run dev",
+    "dev:backend": "cd apps/backend && bun run dev",
+    "build": "bun run --filter '*' build",
+    "build:web": "cd apps/web && bun run build",
+    "lint": "bun run --filter '*' lint",
+    "lint:web": "cd apps/web && bun run lint",
+    "typecheck": "bun run --filter '*' typecheck",
+    "typecheck:web": "cd apps/web && bun run typecheck",
+    "typecheck:backend": "cd apps/backend && bun run typecheck",
+    "format": "cd apps/web && bun run format",
+    "format:write": "cd apps/web && bun run format:write",
+    "bundle:check": "cd apps/web && bun run bundle:check",
+    "check:web": "cd apps/web && bun run check",
+    "check:backend": "cd apps/backend && bun run check",
+    "check": "bun run check:backend && bun run check:web"
+  }
+}

@@ -1,0 +1,195 @@
+/* ── App Shell Layout ──────────────────────────────── */
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────── */
+
+.layout-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 var(--space-5);
+  background: rgb(247 245 240 / 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgb(0 0 0 / 0.06);
+  z-index: var(--z-nav);
+}
+
+.layout-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.layout-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.layout-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-title);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+.layout-brand-type {
+  color: var(--color-ink);
+}
+
+.layout-brand-fast {
+  color: var(--color-go);
+}
+
+/* ── Header Nav Links ─────────────────────────────── */
+
+.layout-nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.layout-nav-link {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  color: var(--color-ink-soft);
+  transition:
+    color var(--dur-fast) ease,
+    background var(--dur-fast) ease;
+}
+
+.layout-nav-link:hover {
+  color: var(--color-ink);
+  background: rgb(0 0 0 / 0.04);
+}
+
+.layout-nav-link.active {
+  color: var(--color-ink);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Talk Nav Link ───────────────────────────────── */
+
+.layout-nav-link-talk {
+  position: relative;
+}
+
+.layout-nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  margin-left: var(--space-1);
+  border-radius: var(--radius-full);
+  background: var(--color-fire);
+  color: white;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 16px;
+  vertical-align: middle;
+  animation: pulse-ring 1.5s ease infinite;
+}
+
+/* ── Avatar Link ──────────────────────────────────── */
+
+.layout-avatar-link {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--color-speed), var(--color-go));
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.5);
+  transition: transform var(--dur-fast) var(--ease-bounce);
+}
+
+.layout-avatar-link:hover {
+  transform: scale(1.08);
+}
+
+.layout-avatar-link .avatar-display {
+  border: 2px solid var(--color-surface);
+}
+
+/* ── Content Area ──────────────────────────────────── */
+
+.layout-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Immersive Mode (during typing) ────────────────── */
+
+.layout--immersive .layout-header {
+  display: none;
+}
+
+.layout--immersive .layout-content {
+  height: 100dvh;
+}
+
+/* ── Responsive ────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .layout-header {
+    padding: 0 var(--space-3);
+  }
+
+  .layout-header-left {
+    gap: var(--space-3);
+  }
+
+  .layout-brand {
+    font-size: var(--text-body);
+  }
+
+  .layout-nav-link {
+    font-size: var(--text-micro);
+    padding: var(--space-1) var(--space-2);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .layout-header {
+    background: rgb(19 31 36 / 0.72);
+    border-bottom-color: rgb(255 255 255 / 0.06);
+  }
+
+  .layout-nav-link:hover {
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .layout-nav-link.active {
+    background: var(--color-surface);
+  }
+
+  .layout-avatar-link {
+    box-shadow: 0 0 0 2px rgb(0 0 0 / 0.3);
+  }
+
+  .layout-avatar-link .avatar-display {
+    border-color: var(--color-surface);
+  }
+}
